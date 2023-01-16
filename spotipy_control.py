@@ -10,16 +10,27 @@ right_button = 17
 left_button = 27
 up_button = 22
 down_button = 23
+button = 24
 
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(right_button, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 GPIO.setup(left_button, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 GPIO.setup(up_button, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 GPIO.setup(down_button, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+GPIO.setup(button, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
 sp = Spotify(auth_manager=SpotifyOAuth(client_id='your_client_id', client_secret='your_client_secret', redirect_uri='your_redirect_uri', scope=['app-remote-control','user-library-modify']))
 
 ## PLAY A PLAYLIST HERE.....
+
+def pause_play(channel):
+    playback = sp.current_playback()
+    if playback is not None:
+        if playback['is_playing']:
+            sp.pause_playback()
+        else:
+            sp.start_playback()
+GPIO.add_event_detect(button, GPIO.FALLING, callback=pause_play, bouncetime=300)
 
 while True:
     right_state = GPIO.input(right_button)

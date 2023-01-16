@@ -5,7 +5,7 @@ from spotipy.oauth2 import SpotifyOauth
 
 GPIO.setmode(GPIO.BCM)
 
-# Set up the GPIO pins for the joystick buttons
+# might need to change pins depending on how you wired the joystick/what joystick you're using
 right_button = 17
 left_button = 27
 up_button = 22
